@@ -9,7 +9,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.List;
-import main.SessionPool;
 
 
 public abstract class DaoTest<T> {
@@ -25,42 +24,44 @@ public abstract class DaoTest<T> {
     }
 
 
-    public T get(int id) {
+    public T get(int pId, Session pSession) {
 
-        try(Session session = SessionPool.getInstance().openSession()) {
+        try {
 
-            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaBuilder cb = pSession.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(currentClass);
             Root<T> root = cq.from(currentClass);
-            cq.select(root).where(cb.equal(root.get(idColumn), id));
+            cq.select(root).where(cb.equal(root.get(idColumn), pId));
 
-            Query<T> query = session.createQuery(cq);
+            Query<T> query = pSession.createQuery(cq);
 
             return query.uniqueResult();
 
         } catch (HibernateException e) {
-            e.printStackTrace();
+
+            System.err.println(e.getMessage());
         }
 
         return null;
     }
 
 
-    public List<T> getAll(){
+    public List<T> getAll(Session pSession){
 
-        try(Session session = SessionPool.getInstance().openSession()) {
+        try {
 
-            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaBuilder cb = pSession.getCriteriaBuilder();
             CriteriaQuery<T> cq = cb.createQuery(currentClass);
             Root<T> root = cq.from(currentClass);
             cq.select(root);
 
-            Query<T> query = session.createQuery(cq);
+            Query<T> query = pSession.createQuery(cq);
 
             return query.getResultList();
 
         } catch (HibernateException e) {
-            e.printStackTrace();
+
+            System.err.println(e.getMessage());
         }
 
         return null;
@@ -68,12 +69,12 @@ public abstract class DaoTest<T> {
     }
 
 
-    public int add(T pEntity) {
+    public int add(T pEntity, Session pSession) {
 
-        try (Session session = SessionPool.getInstance().openSession()) {
+        try {
 
-            Transaction tx = session.beginTransaction();
-            int id = (int) session.save(pEntity);
+            Transaction tx = pSession.beginTransaction();
+            int id = (int) pSession.save(pEntity);
             tx.commit();
             return id;
 
@@ -85,28 +86,28 @@ public abstract class DaoTest<T> {
     }
 
 
-    public void update(T pUpdatedEntity) {
+    public void update(T pUpdatedEntity, Session pSession) {
 
-        try (Session session = SessionPool.getInstance().openSession()) {
+        try {
 
-            Transaction tx = session.beginTransaction();
-            session.update(pUpdatedEntity);
+            Transaction tx = pSession.beginTransaction();
+            pSession.update(pUpdatedEntity);
             tx.commit();
 
         } catch (HibernateException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
 
     }
 
-    public void delete(int id) {
+    public void delete(int pId, Session pSession) {
 
-        try (Session session = SessionPool.getInstance().openSession()) {
+        try {
 
-            Transaction tx = session.beginTransaction();
+            Transaction tx = pSession.beginTransaction();
 
-            T tEntToDelete = get(id);
-            session.delete(tEntToDelete);
+            T tEntToDelete = get(pId, pSession);
+            pSession.delete(tEntToDelete);
 
             tx.commit();
 

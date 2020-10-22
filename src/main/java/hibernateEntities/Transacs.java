@@ -2,13 +2,7 @@ package hibernateEntities;
 
 import org.hibernate.annotations.Type;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "transacs")
@@ -28,19 +22,19 @@ public class Transacs {
 	@Column(name = "summ", nullable = false, length = 100)
 	private int summ;
 	
-	@Column(name = "idaccounts", nullable = false, length = 100)
-	private int idaccounts;
-
 	@Column(name = "is_income", nullable = false, columnDefinition = "TINYINT(4)")
 	private boolean is_income;
 
+	@ManyToOne
+	@JoinColumn(name="idaccounts", nullable=false)
+	private Accounts idaccounts;
 		
-	public Transacs(String pDatetime, String pDescription, int pSumm, int pIdaccounts, boolean pIs_income){
+	public Transacs(Accounts pAccounts, String pDatetime, String pDescription, int pSumm,  boolean pIs_income){
 
 		this.datetime = pDatetime;
 		this.description = pDescription;
 		this.summ = pSumm;
-		this.idaccounts = pIdaccounts;
+		this.idaccounts = pAccounts;
 		this.is_income = pIs_income;
 	}
 	
@@ -73,11 +67,11 @@ public class Transacs {
 		this.summ = summ;
 	}
 
-	public int getIdaccounts() {
+	public Accounts getAcounts() {
 		return idaccounts;
 	}
 
-	public void setIdaccounts(int idaccounts) {
+	public void setIdaccounts(Accounts idaccounts) {
 		this.idaccounts = idaccounts;
 	}
 

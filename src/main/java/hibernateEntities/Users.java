@@ -1,11 +1,8 @@
 package hibernateEntities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import java.util.Set;
+import javax.persistence.*;
 
 
 @Entity
@@ -14,7 +11,7 @@ public class Users {
 			
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "idusers", unique = true, nullable = false)
+	@Column(name = "idusers", unique = true, nullable = false, insertable = false, updatable = false)
 	private int idusers;
 	
 	@Column(name = "username", nullable = false, length = 100)
@@ -28,6 +25,9 @@ public class Users {
 	
 	@Column(name = "userphone", length = 100)
 	private String userphone;
+
+	@OneToMany(mappedBy="idusers")
+	private Set<Accounts> accounts;
 	
 	//Dummy constructor to let Hibernate work
 	Users() {
@@ -36,6 +36,7 @@ public class Users {
 	
 	public Users(String pUsername, String pUserlastname, String pUseremail, String pUserphone){
 
+		this.idusers = 0;
 		this.username = pUsername;
 		this.userlastname = pUserlastname;
 		this.useremail = pUseremail;

@@ -9,7 +9,6 @@
 plugins {
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
-    id 'eclipse'
 }
 
 repositories {
@@ -33,5 +32,42 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:5.4.22.Final'
     
     implementation 'mysql:mysql-connector-java:8.0.21'
+
+    //To generate metamodels for Hibernate automatically
+    annotationProcessor 'org.hibernate:hibernate-jpamodelgen:5.4.22.Final'
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-1.2-api', version: '2.1'
+    compile group: 'org.slf4j', name: 'slf4j-log4j12', version: '1.7.6'
     
+}
+
+tasks.withType(JavaCompile) {
+    options.annotationProcessorGeneratedSourcesDirectory = file("src/main/java/metamodels")
+}
+
+sourceSets {
+    generated {
+        java {
+            srcDirs = ["src/main/java/metamodels"]
+        }
+    }
+}
+
+javadoc {
+    source = sourceSets.main.allJava
+    classpath = configurations.compile
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'main.Starter'
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
 }

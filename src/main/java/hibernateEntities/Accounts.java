@@ -1,11 +1,7 @@
 package hibernateEntities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
@@ -15,32 +11,36 @@ public class Accounts {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "idaccounts", unique = true, nullable = false)
 	private int idaccounts;
-	
-	@Column(name = "idusers", unique = false, nullable = false)
-	private int idusers;
-	
+
 	@Column(name = "accdesc", unique = false, nullable = false, length = 100)
 	private String accdesc;
-	
+
+	@ManyToOne
+	@JoinColumn(name="idusers", nullable=false)
+	private Users idusers;
+
+	@OneToMany(mappedBy="idaccounts")
+	private Set<Transacs> transacs;
+
 	//Dummy constructor to let Hibernate work
 	Accounts(){
 		
 	}
 
 	
-	public Accounts(int pIdusers, String pAccdesc) {
-		
-		this.idusers = pIdusers;
+	public Accounts(Users pUsers, String pAccdesc) {
+
+		this.idusers = pUsers;
 		this.accdesc = pAccdesc;
 				
 	}
 
-	public int getIdusers() {
+	public Users getUsers() {
 		return idusers;
 	}
 
-	public void setIdusers(int pIdusers) {
-		this.idusers = pIdusers;
+	public void setUsers(Users pUsersToSet) {
+		this.idusers = pUsersToSet;
 	}
 
 	public String getAccdesc() {
