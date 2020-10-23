@@ -1,12 +1,10 @@
 package hibernateEntities;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 
 @Entity
 @Table(name = "transacs")
-public class Transacs {
+public class Transacs  implements Identifiable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -86,5 +84,13 @@ public class Transacs {
 	public int getIdtransacs() {
 		return idtransacs;
 	}
-		
+
+	@Override
+	public int getId() {
+		return this.idtransacs;
+	}
+
+	public void setId(int pId) {
+		this.idtransacs = pId;
+	}
 }

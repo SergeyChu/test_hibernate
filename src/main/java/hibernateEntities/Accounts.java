@@ -5,7 +5,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "accounts")
-public class Accounts {
+public class Accounts implements Identifiable {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,5 +54,13 @@ public class Accounts {
 	public int getIdaccounts() {
 		return idaccounts;
 	}
-	
+
+	@Override
+	public int getId() {
+		return idaccounts;
+	}
+
+	public void setId(int pId) {
+		this.idaccounts = pId;
+	}
 }

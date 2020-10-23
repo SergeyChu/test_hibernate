@@ -31,7 +31,6 @@ public class TestUsers1 {
         tUsersDao.add(user2, tSession);
         tUsersDao.add(user3, tSession);
 
-
         AccountsDao tAccountsDao = new AccountsDao();
         Accounts acc1 = new Accounts(user1, "Investment portfolio");
         Accounts acc2 = new Accounts(user1, "For food");

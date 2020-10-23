@@ -1,13 +1,12 @@
 package hibernateEntities;
 
-import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "users")
-public class Users {
+public class Users implements Identifiable {
 			
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -78,5 +77,13 @@ public class Users {
 	public int getIdusers() {
 		return idusers;
 	}
-		
+
+	@Override
+	public int getId() {
+		return this.idusers;
+	}
+
+	public void setId(int pId) {
+		this.idusers = pId;
+	}
 }
