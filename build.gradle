@@ -71,3 +71,9 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+compileJava {
+     //enable incremental compilation
+    options.incremental = false
+
+}
