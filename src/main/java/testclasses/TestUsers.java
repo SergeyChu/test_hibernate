@@ -1,6 +1,7 @@
 package testclasses;
 
 import DAO.UsersDao;
+import hibernateEntities.Identifiable;
 import hibernateEntities.Users;
 import main.MainLogger;
 import main.SessionPool;

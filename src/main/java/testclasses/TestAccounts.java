@@ -22,7 +22,7 @@ public class TestAccounts {
         UsersDao usersDao = new UsersDao();
 
         //Getting user by ID and printing it
-        Accounts acc = accsDao.get(1, tSession);
+        Accounts acc = (Accounts)accsDao.get(1, tSession);
         lg.debug(acc.getIdaccounts() + " " + acc.getUsers().getIdusers() + " " + acc.getAccdesc());
 
         //Printing list of all the users

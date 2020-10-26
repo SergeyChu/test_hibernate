@@ -55,8 +55,7 @@ public class UsersDao extends Dao<Users> {
             Predicate predicate = cb.equal(accountsRoot.get(Accounts_.IDUSERS), pIdusers);
             cq.select(accountsRoot).where(predicate);
             TypedQuery<Accounts> query = pSession.createQuery(cq);
-            List<Accounts> result = query.getResultList();
-            return result;
+            return query.getResultList();
         } catch (HibernateException e) {
             e.printStackTrace();
         }
@@ -76,8 +75,7 @@ public class UsersDao extends Dao<Users> {
             Predicate predicate = cb.equal(accountsUsers.get(Users_.IDUSERS), pIdusers);
             cq1.select(transacsRoot).where(predicate);
             TypedQuery<Transacs> query = pSession.createQuery(cq1);
-            List<Transacs> result = query.getResultList();
-            return result;
+            return query.getResultList();
         } catch (HibernateException e) {
             e.printStackTrace();
         }

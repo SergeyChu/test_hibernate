@@ -1,17 +1,13 @@
 package main;
 
 
-import hibernateEntities.Users;
-import org.apache.logging.log4j.Logger;
-import services.UsersService;
-import testclasses.TestUsers1;
-import testclasses.TestUsersService;
+import testclasses.TestUsersService1;
 
 public class Starter {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InstantiationException, IllegalAccessException {
 
-		new TestUsersService();
+		new TestUsersService1();
 	}
 
 }

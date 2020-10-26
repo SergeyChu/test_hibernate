@@ -3,7 +3,6 @@
  */
 package userdaotests;
 
-import DAO.UsersDao;
 import hibernateEntities.Users;
 import main.CommonUtils;
 import main.MainLogger;
