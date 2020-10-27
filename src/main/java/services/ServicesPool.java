@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class ServicesPool {
 
-    private static volatile ConcurrentHashMap<String, Service> services = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, Service> services = new ConcurrentHashMap<>();
 
     public static Service getInstance(Class<? extends Dao<? extends Identifiable>> pDaoClass) throws InstantiationException, IllegalAccessException {
 

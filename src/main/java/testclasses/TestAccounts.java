@@ -28,7 +28,6 @@ public class TestAccounts {
         //Printing list of all the users
         printAll(accsDao, tSession);
 
-
         //Creating a new user and printing list of all users
         Accounts newAccount = new Accounts(usersDao.get(2, tSession), "Trash test");
         accsDao.add(newAccount, tSession);

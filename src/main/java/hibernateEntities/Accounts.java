@@ -12,7 +12,7 @@ public class Accounts implements Identifiable {
 	@Column(name = "idaccounts", unique = true, nullable = false)
 	private int idaccounts;
 
-	@Column(name = "accdesc", unique = false, nullable = false, length = 100)
+	@Column(name = "accdesc", nullable = false, length = 100)
 	private String accdesc;
 
 	@ManyToOne
@@ -27,12 +27,9 @@ public class Accounts implements Identifiable {
 		
 	}
 
-	
 	public Accounts(Users pUsers, String pAccdesc) {
-
 		this.idusers = pUsers;
 		this.accdesc = pAccdesc;
-				
 	}
 
 	public Users getUsers() {
