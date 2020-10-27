@@ -5,13 +5,14 @@ import hibernateEntities.Users;
 import main.MainLogger;
 import org.apache.logging.log4j.Logger;
 import services.Service;
+import services.ServicesPool;
 
 
 public class TestUsersService1 {
 
     public TestUsersService1() throws IllegalAccessException, InstantiationException {
 
-        Service tUserService = Service.getInstance(UsersDao.class);
+        Service tUserService = ServicesPool.getInstance(UsersDao.class);
         Logger lg = MainLogger.getInstance();
 
 
