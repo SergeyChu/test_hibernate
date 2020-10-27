@@ -16,20 +16,20 @@ public class Service {
 
     private final ReadWriteLock lock;
     private final Cache mCache;
-    private final Dao mDao;
+    private final Dao<? extends Identifiable> mDao;
     private final Session mSession;
     private static Logger lg;
 
     private static volatile ConcurrentHashMap<String, Service> services = new ConcurrentHashMap<>();
 
-    private Service(Class<? extends Dao> pDaoClass) throws IllegalAccessException, InstantiationException {
+    private Service(Class<? extends Dao<? extends Identifiable>> pDaoClass) throws IllegalAccessException, InstantiationException {
         mDao = pDaoClass.newInstance();
         mCache = new Cache(50);
         mSession = SessionPool.getInstance().openSession();
         lock = new ReentrantReadWriteLock();
     }
 
-    public static Service getInstance(Class<? extends Dao> pDaoClass) throws InstantiationException, IllegalAccessException {
+    public static Service getInstance(Class<? extends Dao<? extends Identifiable>> pDaoClass) throws InstantiationException, IllegalAccessException {
 
         lg = MainLogger.getInstance();
 
@@ -60,7 +60,7 @@ public class Service {
         else {
             lg.debug("Getting Transacs object from DB");
             lock.readLock().unlock();
-            return (Identifiable)mDao.get(pId, this.mSession);
+            return mDao.get(pId, this.mSession);
         }
     }
 

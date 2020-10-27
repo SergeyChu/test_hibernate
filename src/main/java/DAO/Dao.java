@@ -1,5 +1,6 @@
 package DAO;
 
+import hibernateEntities.Identifiable;
 import main.MainLogger;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -13,25 +14,24 @@ import javax.persistence.criteria.Root;
 import java.util.List;
 
 
-public class Dao<T> {
+public class Dao<T extends Identifiable> {
 
-    private final Class<T> currentClass;
+    private final Class<T> entityClass;
     private final String idColumn;
     Logger lg;
 
     public Dao(Class<T> pCurrentClass, String pIdColumn){
         this.lg = MainLogger.getInstance();
-        this.currentClass = pCurrentClass;
+        this.entityClass = pCurrentClass;
         this.idColumn = pIdColumn;
     }
-
 
     public T get(int pId, Session pSession) {
 
         try {
             CriteriaBuilder cb = pSession.getCriteriaBuilder();
-            CriteriaQuery<T> cq = cb.createQuery(currentClass);
-            Root<T> root = cq.from(currentClass);
+            CriteriaQuery<T> cq = cb.createQuery(entityClass);
+            Root<T> root = cq.from(entityClass);
             cq.select(root).where(cb.equal(root.get(idColumn), pId));
             Query<T> query = pSession.createQuery(cq);
             return query.uniqueResult();
@@ -42,13 +42,12 @@ public class Dao<T> {
         return null;
     }
 
-
     public List<T> getAll(Session pSession){
 
         try {
             CriteriaBuilder cb = pSession.getCriteriaBuilder();
-            CriteriaQuery<T> cq = cb.createQuery(currentClass);
-            Root<T> root = cq.from(currentClass);
+            CriteriaQuery<T> cq = cb.createQuery(entityClass);
+            Root<T> root = cq.from(entityClass);
             cq.select(root);
             Query<T> query = pSession.createQuery(cq);
             return query.getResultList();
@@ -60,8 +59,7 @@ public class Dao<T> {
 
     }
 
-
-    public int add(T pEntity, Session pSession) {
+    public int add(Identifiable pEntity, Session pSession) {
 
         try {
             Transaction tx = pSession.beginTransaction();
@@ -74,8 +72,7 @@ public class Dao<T> {
         return 0;
     }
 
-
-    public void update(T pUpdatedEntity, Session pSession) {
+    public void update(Identifiable pUpdatedEntity, Session pSession) {
 
         try {
             Transaction tx = pSession.beginTransaction();
